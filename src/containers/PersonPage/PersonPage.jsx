@@ -1,20 +1,26 @@
 import PropTypes from 'prop-types';
-import { useEffect } from 'react';
+import React, { useState, useEffect, Suspense } from 'react';
 import PersonInfo from '../../components/PersonPage/PersonInfo/PersonInfo';
 import PersonPhoto from '../../components/PersonPage/PersonPhoto/PersonPhoto';
+import UiLoading from '../../components/UI/UiLoading/UiLoading';
+
+// import PersonFilms from '../../components/PersonPage/PersonFilms/PersonFilms';
+
 import { API_PERSON } from '../../constants/api';
 import { getApiResource } from '../../utils/network';
 import { getPeopleImg } from '../../services/getPeopleData';
 import { wthErrorApi } from '../../hoc-helpers/withErrorApi';
 
 import styles from './PersonPage.module.css';
-import { useState } from 'react';
 import PersonLinkBack from '../../components/PersonPage/PersonLinkBack/PersonLinkBack';
+
+const PersonFilms = React.lazy(() => import ('../../components/PersonPage/PersonFilms/PersonFilms'));
 
 const PersonPage = ({match, setErrorApi}) => {
   const [personInfo, setPersonInfo] = useState(null);
   const [personName, setPersonName] = useState(null);
   const [personPhoto, setPersonPhoto] = useState(null);
+  const [personFilms, setPersonFilms] = useState(null);
 
 
   useEffect(() => {
@@ -34,6 +40,7 @@ const PersonPage = ({match, setErrorApi}) => {
             ]);
             setPersonName(res.name);
             setPersonPhoto(getPeopleImg(id));
+            res.films.length && setPersonFilms(res.films);
             setErrorApi(false);
         } else {
             setErrorApi(true);
@@ -56,9 +63,13 @@ const PersonPage = ({match, setErrorApi}) => {
                 />
 
                 {personInfo && <PersonInfo personInfo={personInfo} />}
+
+                {personFilms && (
+                    <Suspense fallback={<UiLoading />}>
+                        <PersonFilms personFilms={personFilms} />
+                    </Suspense>
+                )}
             </div>
-
-
         </div>
     </>
     )
