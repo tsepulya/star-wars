@@ -1,5 +1,6 @@
 import PropTypes from 'prop-types';
 import React, { useState, useEffect, Suspense } from 'react';
+import { useSelector } from 'react-redux';
 import PersonInfo from '../../components/PersonPage/PersonInfo/PersonInfo';
 import PersonPhoto from '../../components/PersonPage/PersonPhoto/PersonPhoto';
 import UiLoading from '../../components/UI/UiLoading/UiLoading';
@@ -21,12 +22,20 @@ const PersonPage = ({match, setErrorApi}) => {
   const [personName, setPersonName] = useState(null);
   const [personPhoto, setPersonPhoto] = useState(null);
   const [personFilms, setPersonFilms] = useState(null);
+  const [personId, setPersonId] = useState(null);
+  const [personFavourite, setPersonFavourite] = useState(false);
+  
+  const storeData = useSelector(state => state.favouriteReducer);
 
 
   useEffect(() => {
     (async () => {
         const id = match.params.id;
         const res = await getApiResource(`${API_PERSON}/${id}/`);
+
+        storeData[id] ? setPersonFavourite(true) : setPersonFavourite(false);
+
+        setPersonId(id);
 
         if (res) {
             setPersonInfo([
@@ -58,8 +67,11 @@ const PersonPage = ({match, setErrorApi}) => {
             
             <div className={styles.container}>
                 <PersonPhoto
+                    personId={personId}
                     personPhoto={personPhoto}
                     personName={personName}
+                    personFavourite={personFavourite}
+                    setPersonFavourite={setPersonFavourite}
                 />
 
                 {personInfo && <PersonInfo personInfo={personInfo} />}
