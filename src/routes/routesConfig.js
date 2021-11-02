@@ -3,6 +3,7 @@ import HomePage from "../containers/HomePage/HomePage";
 import NotFoundPage from "../containers/NotFoundPage";
 import PersonPage from "../containers/PersonPage/PersonPage";
 import FavouritesPage from "../containers/FavouritesPage/FavouritesPage";
+import SearchPeage from "../containers/SearchPeage";
 
 const routesConfig = [
     {
@@ -29,6 +30,11 @@ const routesConfig = [
         path: '/favourites',
         exact: true,
         component: FavouritesPage
+    },
+    {
+        path: '/search',
+        exact: true,
+        component: SearchPeage
     },
     {
         path: '*',
