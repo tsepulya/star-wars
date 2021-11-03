@@ -4,6 +4,7 @@ import NotFoundPage from "../containers/NotFoundPage";
 import PersonPage from "../containers/PersonPage/PersonPage";
 import FavouritesPage from "../containers/FavouritesPage/FavouritesPage";
 import SearchPeage from "../containers/SearchPeage";
+import ErrorMessage from "../components/ErrorMessage";
 
 const routesConfig = [
     {
@@ -35,6 +36,11 @@ const routesConfig = [
         path: '/search',
         exact: true,
         component: SearchPeage
+    },
+    {
+        path: '/fail',
+        exact: true,
+        component: ErrorMessage
     },
     {
         path: '*',

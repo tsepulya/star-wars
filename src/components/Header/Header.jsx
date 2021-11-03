@@ -36,6 +36,7 @@ const Header = () => {
                 <li><NavLink to="/people/?page=1">People</NavLink></li>
                 <li><NavLink to="/search" exact>Search</NavLink></li>
                 <li><NavLink to="/not-found" exact>Not Found</NavLink></li>
+                <li><NavLink to="/fail" exact>Fail</NavLink></li>
             </ul>
             <Favourite />
         </div>
